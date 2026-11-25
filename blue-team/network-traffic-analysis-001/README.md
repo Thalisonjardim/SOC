@@ -4,7 +4,7 @@
 
 ## Executive summary
 
-This educational case study examines a real packet capture from a personal network to establish a small traffic baseline and distinguish observable events from hypotheses. No attack was confirmed within the limited observation window. Capture collection and manual Wireshark screenshot validation were performed by the author; analysis and documentation were assisted by AI.
+This educational case study examines a real packet capture from a personal network to establish a small traffic baseline and distinguish observable events from hypotheses. No attack was confirmed within the limited observation window. I collected traffic from my own network and used Wireshark to inspect protocol statistics, DNS responses, TCP connection establishment and local discovery traffic. This project documents my learning and evidence-validation workflow, including AI-assisted exploration.
 
 ## Capture overview
 
@@ -21,6 +21,14 @@ This educational case study examines a real packet capture from a personal netwo
 | ICMPv6 | 7 |
 
 The network layer includes 240 IPv6 frames and 62 IPv4 frames; the remaining 24 are ARP. Wireshark's unfiltered protocol hierarchy identifies 22 QUIC, 65 TLS, 27 DNS and 7 mDNS frames. Counts across protocol layers overlap.
+
+## Skills demonstrated
+
+- Packet capture and protocol inspection in Wireshark.
+- DNS request/response correlation and interpretation of A records, TTL and response time.
+- TCP handshake and flag interpretation, including ECN and basic troubleshooting.
+- Evidence-based SOC triage: distinguishing observed behavior from unconfirmed hypotheses.
+- Privacy-aware technical documentation and responsible AI-assisted analysis.
 
 ## Methodology
 
@@ -87,6 +95,12 @@ Filter: `icmpv6.type == 1 && icmpv6.code == 4`.
 ## Manual evidence validation
 
 Six Wireshark screenshots were collected: unfiltered protocol hierarchy, DNS response, TCP handshake, ARP, mDNS and frame 104. Redacted image files are pending upload to this repository. A further screenshot expanding ICMPv6 Type and Code would make the error evidence clearer.
+
+## AI-augmented investigation workflow
+
+I use AI as a complementary learning and analytical tool, not as an independent authority on security findings. In this case, AI supported the initial packet review, suggested display filters, helped explain protocol behavior and structured the technical report. I collected the capture and reproduced key views in Wireshark, supplying screenshots to check the proposed findings against actual packet evidence.
+
+The workflow is evidence-first: inspect the source, use AI to explore explanations, verify key claims against packet fields, distinguish facts from hypotheses, and document remaining uncertainty. Sensitive network identifiers are excluded from public artifacts. Independent reproduction of all findings remains a learning objective; the screenshots do not establish that every initial claim has been manually verified.
 
 ## SOC triage conclusion
 
