@@ -20,6 +20,7 @@ AI is a tool for improving analytical capability, not a substitute for technical
 | Case | Area | Project |
 |---|---|---|
 | NTA-001 | Network Traffic Analysis | [Wireshark — Home Network Baseline](blue-team/network-traffic-analysis-001/README.md) |
+| NTA-002 | Network Traffic Analysis / Detection Engineering | [TCP SYN Scan Detection](blue-team/network-traffic-analysis-002/README.md) |
 
 ## Learning roadmap
 
