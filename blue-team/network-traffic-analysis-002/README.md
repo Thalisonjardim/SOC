@@ -85,6 +85,48 @@ Baseline frame 435 shows an ICMP type 3/code 3 error sent from Ubuntu to Debian,
 
 Wireshark can match fields inside quoted packets, so `dns && ip.src == 192.168.56.101 && !icmp` helps isolate actual DNS traffic from ICMP-encapsulated queries.
 
+## Visual evidence — Wireshark
+
+Sanitized screenshots preserve the isolated lab addresses, packet flags, frame numbers and relevant protocol fields.
+
+### Baseline
+
+Initial SYN packets and SYN-ACK responses:
+
+![Baseline initial SYN](evidence/baseline-syn.png)
+
+![Baseline SYN-ACK](evidence/baseline-syn-ack.png)
+
+HTTP HEAD and GET requests:
+
+![Baseline HTTP requests](evidence/baseline-http.png)
+
+No resets observed: [all RST](evidence/baseline-no-rst.png), [Ubuntu RST](evidence/baseline-ubuntu-no-rst.png), [Debian RST](evidence/baseline-debian-no-rst.png).
+
+### Scan
+
+Open port 22 (SSH):
+
+![TCP port 22](evidence/scan-port-22.png)
+
+Closed port 23:
+
+![TCP port 23](evidence/scan-port-23.png)
+
+Open port 80 (HTTP):
+
+![TCP port 80](evidence/scan-port-80.png)
+
+Target resets (998) and scanner resets (2):
+
+![Target resets](evidence/scan-target-rst.png)
+
+![Scanner resets](evidence/scan-scanner-rst.png)
+
+### DNS and ICMP
+
+![ICMP error quoting DNS traffic](evidence/baseline-icmp-dns.png)
+
 ## Detection engineering proposal — DET-NET-001
 
 Conceptual rule: count distinct destination ports in initial TCP SYN packets (SYN set, ACK unset), grouped by source and destination IP within a 10-second window. Raise an alert at 20 distinct ports. The observed scan satisfies this threshold; the baseline does not. This is a retrospective comparison, not a deployed or tested SIEM rule. The threshold is educational and requires production tuning. Authorized scanning can be a true positive for scan detection without constituting a malicious incident. A slow or distributed scan may evade this specific rule; legitimate multi-port application behavior may generate false positives.
@@ -105,7 +147,7 @@ The learner built the lab, ran the tools, collected captures, inspected Wireshar
 
 ## Limitations and lessons learned
 
-This is a small, controlled environment and two captures, not a production baseline. Capture visibility is limited to the selected interface. There is no deployed IDS/SIEM, no measured production false-positive rate, and no proof of compromise or exploitation. The packet evidence supports recognition of a SYN scan, not attribution of malicious intent. The chart is generated from confirmed metrics; original screenshots are retained separately until their sanitized PNG files can be transferred into the repository.
+This is a small, controlled environment and two captures, not a production baseline. Capture visibility is limited to the selected interface. There is no deployed IDS/SIEM, no measured production false-positive rate, and no proof of compromise or exploitation. The packet evidence supports recognition of a SYN scan, not attribution of malicious intent. The chart is generated from confirmed metrics; sanitized screenshots are included in the evidence directory; original images are retained privately.
 
 ## Resumo em português
 
